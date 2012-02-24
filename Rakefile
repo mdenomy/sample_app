@@ -13,7 +13,7 @@ task :default => 'test:unit'
 namespace :test do
   desc "Run all RSpec tests"
   RSpec::Core::RakeTask.new('unit') do |task|
-    task.pattern    = "rspec/**/*_spec.rb"
+    task.pattern    = "spec/**/*_spec.rb"
     task.rspec_opts = ["--color --format documentation"]
   end
 
