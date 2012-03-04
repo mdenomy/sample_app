@@ -137,4 +137,51 @@ describe UsersController do
     end
   end
 
+  describe "GET 'edit'" do
+    describe "success" do
+
+      before(:each) do
+        @user = Factory(:user)
+        test_sign_in(@user)
+      end
+
+      it "should be successful" do
+        get :edit, :id => @user
+        response.should be_success
+
+      end
+
+      it "should have the right title" do
+        get :edit, :id => @user
+        response.should have_selector("title", :content => "Edit user")
+      end
+
+      it "should have a link to change gravatar" do
+        get :edit, :id => @user
+        gravatar_url = "http://gravatar.com/emails"
+        response.should have_selector("a", :href => gravatar_url,
+                                           :content => "change")
+      end
+
+      it "should have a name field" do
+        get :edit, :id => @user
+        response.should have_selector("input[name='user[name]'][type='text']")
+      end
+
+      it "should have an email field" do
+        get :edit, :id => @user
+        response.should have_selector("input[name='user[email]'][type='text']")
+      end
+
+      it "should have an password field" do
+        get :edit, :id => @user
+        response.should have_selector("input[name='user[password]'][type='password']")
+      end
+
+      it "should have an confirmation field" do
+        get :edit, :id => @user
+        response.should have_selector("input[name='user[password_confirmation]'][type='password']")
+      end
+    end
+  end
 end
