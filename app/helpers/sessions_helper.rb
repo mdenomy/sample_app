@@ -25,17 +25,21 @@ module SessionsHelper
     !current_user.nil?
   end
 
-  def deny_access
-     store_location
-     redirect_to signin_path, :notice => "Please sign in to access this page."
-   end
+  def redirect_back_or(default)
+    redirect_to(session[:return_to] || default)
+    clear_return_to
+  end
 
-   def redirect_back_or(default)
-     redirect_to(session[:return_to] || default)
-     clear_return_to
-   end
+  def authenticate
+    deny_access unless signed_in?
+  end
 
   private
+
+  def deny_access
+    store_location
+    redirect_to signin_path, :notice => "Please sign in to access this page."
+  end
 
   def user_from_remember_token
     User.authenticate_with_salt(*remember_token)
